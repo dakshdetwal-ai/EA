@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0d12">
+  <title>DETwal | XAUUSD Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="loginView" class="login-wrap">
+    <div class="login-card">
+      <div class="brand-mark">D<span>.</span></div>
+      <p class="eyebrow">DETWAL AUTOMATION</p>
+      <h1>Welcome back.</h1>
+      <p class="muted">Sign in to your trading control center.</p>
+
+      <form id="loginForm">
+        <label for="email">Admin email</label>
+        <input id="email" type="email" placeholder="Email address" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Password" required>
+
+        <p id="loginError" class="form-error" hidden></p>
+        <button class="btn btn-primary full" type="submit">
+          Continue →
+        </button>
+      </form>
+
+      <p class="muted small-text">
+        Frontend preview · Authentication not connected
+      </p>
+    </div>
+  </div>
+
+  <div id="appView" class="app-shell" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-mark small">D<span>.</span></span>
+        <span>DETwal<small>TRADING SYSTEMS</small></span>
+      </a>
+
+      <p class="side-label">WORKSPACE</p>
+      <button class="nav-item active" data-view="overview">▦ Overview</button>
+      <button class="nav-item" data-view="zones">⌖ Trading zones</button>
+      <button class="nav-item" data-view="risk">◈ Risk controls</button>
+      <button class="nav-item" data-view="activity">≋ Activity log</button>
+
+      <div class="sidebar-bottom">
+        <div class="connection-card">
+          <strong>● Demo preview</strong>
+          <p>MT5 not connected</p>
+          <small>Trading disabled</small>
+        </div>
+        <button class="nav-item" id="logoutBtn">↪ Exit preview</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          Workspace / <strong id="pageCrumb">Overview</strong>
+        </div>
+        <span class="market-pill">● MT5 disconnected</span>
+      </header>
+
+      <section class="page active" id="page-overview">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">CONTROL CENTER / XAUUSD</p>
+            <h1>Trading control center.</h1>
+            <p class="muted">Manage your zones and risk rules.</p>
+          </div>
+          <button class="btn btn-primary" data-open-zone>＋ Add zone</button>
+        </div>
+
+        <div class="notice">
+          <strong>Preview mode:</strong>
+          No broker data is connected. No trades can be placed.
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <p>Account balance</p>
+            <h2>—</h2>
+            <small>MT5 not connected</small>
+          </article>
+          <article class="stat-card">
+            <p>Daily P/L</p>
+            <h2>—</h2>
+            <small>Live data unavailable</small>
+          </article>
+          <article class="stat-card">
+            <p>Open positions</p>
+            <h2>—</h2>
+            <small>Broker disconnected</small>
+          </article>
+          <article class="stat-card">
+            <p>Active zones</p>
+            <h2 id="activeZoneStat">0</h2>
+            <small>Saved in this browser</small>
+          </article>
+        </div>
+
+        <div class="content-grid">
+          <article class="panel">
+            <h2>XAUUSD</h2>
+            <p class="muted">Gold / US Dollar</p>
+            <div class="chart-placeholder">
+              <div class="chart-watermark">ILLUSTRATION · NOT LIVE DATA</div>
+              <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+                <polyline
+                  points="0,160 40,140 75,155 110,105 150,120 190,75 230,100 270,55 310,80 350,45 390,90 430,60 470,35 520,50 560,20 600,30"
+                  fill="none"
+                  stroke="#e0b052"
+                  stroke-width="3"
+                />
+              </svg>
+            </div>
+            <p class="muted small-text">Market feed disconnected</p>
+          </article>
+
+          <article class="panel">
+            <h2>Bot status</h2>
+            <div class="bot-status">● OFFLINE</div>
+            <p class="muted">Expert Advisor not connected.</p>
+            <hr>
+            <p>Automatic execution <strong>Disabled</strong></p>
+            <button class="btn btn-secondary full" id="botInfoBtn">
+              Connection requirements
+            </button>
+          </article>
+        </div>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Trading zones</h2>
+              <p class="muted">Your manually defined levels</p>
+            </div>
+            <button class="btn btn-secondary" data-open-zone>＋ Add zone</button>
+          </div>
+          <div id="overviewZones" class="empty-state">
+            <h3>No zones yet</h3>
+            <p>Add your first Buy or Sell zone.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="page" id="page-zones">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">STRATEGY SETUP</p>
+            <h1>Trading zones</h1>
+            <p class="muted">Manage your manually entered levels.</p>
+          </div>
+          <button class="btn btn-primary" data-open-zone>＋ Add zone</button>
+        </div>
+
+        <div class="filter-row">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="Buy">Buy</button>
+          <button class="filter" data-filter="Sell">Sell</button>
+        </div>
+        <div id="allZones" class="zone-list"></div>
+      </section>
+
+      <section class="page" id="page-risk">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">CAPITAL PROTECTION</p>
+            <h1>Risk controls</h1>
+            <p class="muted">Planned strategy settings.</p>
+          </div>
+        </div>
+
+        <div class="notice">
+          These settings are informational only. The EA must enforce them independently.
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <p>Combined risk limit</p><h2>1%</h2>
+          </article>
+          <article class="stat-card">
+            <p>Daily loss cutoff</p><h2>3%</h2>
+          </article>
+          <article class="stat-card">
+            <p>Reward / risk</p><h2>1 : 3</h2>
+          </article>
+          <article class="stat-card">
+            <p>News filter</p><h2>Offline</h2>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>Before enabling automation</h2>
+          <ul class="check-list">
+            <li>Verify XAUUSD pip and tick specifications.</li>
+            <li>Verify Blue Guardian account rules.</li>
+            <li>Implement spread and news filters.</li>
+            <li>Test risk calculations and execution on demo.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="page" id="page-activity">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">AUDIT TRAIL</p>
+            <h1>Activity log</h1>
+          </div>
+          <button class="btn btn-secondary" id="clearLogBtn">Clear log</button>
+        </div>
+        <article class="panel">
+          <div id="activityList" class="empty-state">
+            No activity yet.
+          </div>
+        </article>
+      </section>
+
+      <footer class="main-footer">
+        DETwal · Frontend preview · Not connected to a broker
+      </footer>
+    </main>
+  </div>
+
+  <div id="zoneModal" class="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">MANUAL SETUP</p>
+          <h2>Add trading zone</h2>
+        </div>
+        <button class="icon-btn" id="closeModal" aria-label="Close">×</button>
+      </div>
+
+      <form id="zoneForm">
+        <label>Direction</label>
+        <div class="direction-choice">
+          <label><input type="radio" name="direction" value="Buy" checked> Buy zone</label>
+          <label><input type="radio" name="direction" value="Sell"> Sell zone</label>
+        </div>
+
+        <label for="zoneStart">Zone starting price</label>
+        <input id="zoneStart" type="number" step="any" placeholder="4498.00" required>
+
+        <label for="zoneEnd">Zone ending price</label>
+        <input id="zoneEnd" type="number" step="any" placeholder="4496.00" required>
+
+        <label for="zoneNote">Note (optional)</label>
+        <input id="zoneNote" maxlength="120" placeholder="Demand zone, previous low...">
+
+        <p id="zoneError" class="form-error" hidden></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancelZone">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save zone</button>
+        </div>
+        <p class="muted small-text">
+          Stored only in this browser. Does not place trades.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
